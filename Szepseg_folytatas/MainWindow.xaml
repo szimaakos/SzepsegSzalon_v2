@@ -1,0 +1,35 @@
+﻿<Window x:Class="Szepseg_folytatas.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Szepseg_folytatas"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Navigációs gombok a bal oldalon -->
+        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
+            <Button Content="Ügyfelek kezelése" Click="UgyfelekKezelese"/>
+            <Button Content="Dolgozók kezelése" Click="DolgozokKezelese"/>
+            <Button Content="Szolgáltatások kezelése" Click="SzolgaltatasokKezelese"/>
+        </StackPanel>
+
+        <!-- Tartalom panel, amely az ügyfelek adatait jeleníti meg -->
+        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10">
+            <TextBlock FontSize="16" FontWeight="Bold" Text="Ügyfelek kezelése" Margin="0,0,0,10"/>
+
+            <DataGrid Name="UgyfelDataGrid" AutoGenerateColumns="True" Height="200" Margin="0,0,0,10"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
+                <Button Content="Hozzáadás" Width="100" Margin="0,0,10,0" Click="AddUgyfel"/>
+                <Button Content="Módosítás" Width="100" Margin="0,0,10,0" Click="EditUgyfel"/>
+                <Button Content="Törlés" Width="100" Click="DeleteUgyfel"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
