@@ -17,100 +17,56 @@ namespace Szepseg_folytatas
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Ugyfel> Ugyfelek { get; set; }
+        // Store selected service
+        private RadioButton selectedService;
 
         public MainWindow()
         {
             InitializeComponent();
-            Ugyfelek = new ObservableCollection<Ugyfel>(LoadUgyfelekFromDatabase());
-            UgyfelDataGrid.ItemsSource = Ugyfelek;
         }
 
-        // CRUD Műveletek
-        private void AddUgyfel(object sender, RoutedEventArgs e)
+        // Starts the booking process by showing Step 1
+        private void StartBooking_Click(object sender, RoutedEventArgs e)
         {
-            // Új ügyfél hozzáadása
-            var ujUgyfel = new Ugyfel
-            {
-                UgyfelVezetekNev = "Új",
-                UgyfelKeresztNev = "Ügyfél"
-            };
-            Ugyfelek.Add(ujUgyfel);
-            SaveUgyfelToDatabase(ujUgyfel);
+            HomeScreen.Visibility = Visibility.Collapsed;
+            Step1Screen.Visibility = Visibility.Visible;
         }
 
-        private void EditUgyfel(object sender, RoutedEventArgs e)
+        // Move to the next step of the booking process
+        private void NextStep_Click(object sender, RoutedEventArgs e)
         {
-            // Kijelölt ügyfél módosítása
-            if (UgyfelDataGrid.SelectedItem is Ugyfel selectedUgyfel)
+            // Save the selected service
+            foreach (UIElement element in (Step1Screen.Children[1] as StackPanel).Children)
             {
-                selectedUgyfel.UgyfelVezetekNev = "Módosított";
-                UpdateUgyfelInDatabase(selectedUgyfel);
+                if (element is RadioButton service && service.IsChecked == true)
+                {
+                    selectedService = service;
+                    break;
+                }
+            }
+
+            if (selectedService != null)
+            {
+                MessageBox.Show($"Szolgáltatás kiválasztva: {selectedService.Content}");
+                // Logic for moving to the next step can be added here
+            }
+            else
+            {
+                MessageBox.Show("Kérjük, válasszon egy szolgáltatást.");
             }
         }
 
-        private void DeleteUgyfel(object sender, RoutedEventArgs e)
+        // Go back to the previous step
+        private void BackStep_Click(object sender, RoutedEventArgs e)
         {
-            // Kijelölt ügyfél törlése
-            if (UgyfelDataGrid.SelectedItem is Ugyfel selectedUgyfel)
+            Step1Screen.Visibility = Visibility.Collapsed;
+            HomeScreen.Visibility = Visibility.Visible;
+
+            // Restore previously selected service
+            if (selectedService != null)
             {
-                Ugyfelek.Remove(selectedUgyfel);
-                DeleteUgyfelFromDatabase(selectedUgyfel.UgyfelID);
+                selectedService.IsChecked = true;
             }
         }
-
-        // Példa a dolgozók és szolgáltatások kezelésére
-        private void UgyfelekKezelese(object sender, RoutedEventArgs e)
-        {
-            // Ügyfelek panel megjelenítése (itt már eleve megjelenik)
-        }
-
-        private void DolgozokKezelese(object sender, RoutedEventArgs e)
-        {
-            // Dolgozók kezelése funkció itt fog megvalósulni
-            MessageBox.Show("Dolgozók kezelése funkció...");
-        }
-
-        private void SzolgaltatasokKezelese(object sender, RoutedEventArgs e)
-        {
-            // Szolgáltatások kezelése funkció itt fog megvalósulni
-            MessageBox.Show("Szolgáltatások kezelése funkció...");
-        }
-
-        // Adatbázis CRUD műveletekhez szükséges funkciók (példaként)
-        private ObservableCollection<Ugyfel> LoadUgyfelekFromDatabase()
-        {
-            // Adatbázisból betöltés (példa)
-            return new ObservableCollection<Ugyfel>
-            {
-                new Ugyfel { UgyfelID = 1, UgyfelVezetekNev = "Kiss", UgyfelKeresztNev = "János", UgyfelTelefon = "123456789", UgyfelEmail = "janos.kiss@example.com", UgyfelPontok = 100 }
-            };
-        }
-
-        private void SaveUgyfelToDatabase(Ugyfel ugyfel)
-        {
-            // Új ügyfél mentése az adatbázisba
-        }
-
-        private void UpdateUgyfelInDatabase(Ugyfel ugyfel)
-        {
-            // Ügyfél módosítás mentése az adatbázisba
-        }
-
-        private void DeleteUgyfelFromDatabase(int ugyfelID)
-        {
-            // Ügyfél törlése az adatbázisból
-        }
-    }
-
-    // Ügyfél modell osztály
-    public class Ugyfel
-    {
-        public int UgyfelID { get; set; }
-        public string UgyfelVezetekNev { get; set; }
-        public string UgyfelKeresztNev { get; set; }
-        public string UgyfelTelefon { get; set; }
-        public string UgyfelEmail { get; set; }
-        public int UgyfelPontok { get; set; }
     }
 }

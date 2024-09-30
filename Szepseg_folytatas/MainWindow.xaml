@@ -6,30 +6,93 @@
         xmlns:local="clr-namespace:Szepseg_folytatas"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="3*" />
-        </Grid.ColumnDefinitions>
+    <Grid Name="MainGrid">
+        <!-- Header with logo -->
+        <DockPanel Margin="10">
+            <Image Source="logo.jpg" Height="50" Width="50" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="10,0,0,0"/>
+        </DockPanel>
 
-        <!-- Navigációs gombok a bal oldalon -->
-        <StackPanel Grid.Column="0" VerticalAlignment="Top" Margin="10">
-            <Button Content="Ügyfelek kezelése" Click="UgyfelekKezelese"/>
-            <Button Content="Dolgozók kezelése" Click="DolgozokKezelese"/>
-            <Button Content="Szolgáltatások kezelése" Click="SzolgaltatasokKezelese"/>
+        <!-- Initial Home Screen -->
+        <StackPanel Name="HomeScreen" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Welcome to the Beauty Salon" 
+                       FontSize="26" 
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center" 
+                       Foreground="DarkSlateGray"/>
+            <Button Content="Foglalás" 
+                    Width="220" 
+                    Height="50" 
+                    Background="#FF6F61" 
+                    Foreground="White" 
+                    FontSize="18" 
+                    FontWeight="Bold"
+                    Click="StartBooking_Click"
+                    HorizontalAlignment="Center"/>
         </StackPanel>
 
-        <!-- Tartalom panel, amely az ügyfelek adatait jeleníti meg -->
-        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10">
-            <TextBlock FontSize="16" FontWeight="Bold" Text="Ügyfelek kezelése" Margin="0,0,0,10"/>
+        <!-- Booking Step 1: Select Service -->
+        <StackPanel Name="Step1Screen" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="1/4 Válaszd ki a szolgáltatást" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Foreground="DarkSlateGray" 
+                       HorizontalAlignment="Center"/>
 
-            <DataGrid Name="UgyfelDataGrid" AutoGenerateColumns="True" Height="200" Margin="0,0,0,10"/>
+            <!-- Radio Buttons for services -->
+            <StackPanel>
+                <RadioButton Content="Hajvágás - Ár: 5000 Ft - Időtartam: 60 perc" GroupName="Services" FontSize="16" Margin="5"/>
+                <RadioButton Content="Manikűr - Ár: 3000 Ft - Időtartam: 45 perc" GroupName="Services" FontSize="16" Margin="5"/>
+                <RadioButton Content="Masszázs - Ár: 8000 Ft - Időtartam: 90 perc" GroupName="Services" FontSize="16" Margin="5"/>
+            </StackPanel>
 
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
-                <Button Content="Hozzáadás" Width="100" Margin="0,0,10,0" Click="AddUgyfel"/>
-                <Button Content="Módosítás" Width="100" Margin="0,0,10,0" Click="EditUgyfel"/>
-                <Button Content="Törlés" Width="100" Click="DeleteUgyfel"/>
+            <!-- Navigation Buttons (Back and Next) -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Vissza" 
+                        Width="120" 
+                        Height="40" 
+                        Background="Gray" 
+                        Foreground="White" 
+                        FontSize="16" 
+                        FontWeight="Bold"
+                        Click="BackStep_Click"
+                        HorizontalAlignment="Left"/>
+
+                <Button Content="Tovább" 
+                        Width="120" 
+                        Height="40" 
+                        Background="#FF6F61" 
+                        Foreground="White" 
+                        FontSize="16" 
+                        FontWeight="Bold"
+                        Click="NextStep_Click"
+                        HorizontalAlignment="Right"/>
             </StackPanel>
         </StackPanel>
+
+        <!-- Footer with menu options -->
+        <DockPanel VerticalAlignment="Bottom" Background="#FFE4E1" Height="60">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
+                <Button Content="Ügyfél" Width="120" Height="40" 
+                        Background="#FF6F61" 
+                        Foreground="White"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+                <Button Content="Dolgozó" Width="120" Height="40" 
+                        Background="#FF6F61" 
+                        Foreground="White"
+                        FontSize="14"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"/>
+            </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>
